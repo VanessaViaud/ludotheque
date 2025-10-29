@@ -35,14 +35,14 @@ public class GameRepositoryTest {
         assertNotNull(categories);
 
         categoryRepository.flush();
-        Game game = new Game("Uno", "gf1h2sb", 5.5, categories);
+        Game game = new Game("Uno", "gf1h2sb", 5.5);
         game.setDescription("jeu de carte dans lequel le vainqueur est le premier joueur à se défausser de la dernière carte de sa main");
+        game.setCategories(categories);
+        Game newGame = gameRepository.save(game);
 
-        gameRepository.save(game);
-
-        assertNotNull(game);
-        assertNotNull(game.getGameNumber());
-        assertEquals(categories, game.getCategories());
+        assertNotNull(newGame);
+        assertNotNull(newGame.getGameNumber());
+        assertEquals(categories, newGame.getCategories());
 
         gameRepository.flush();
         Optional<Game> gameOptional = gameRepository.findById(game.getGameNumber());
