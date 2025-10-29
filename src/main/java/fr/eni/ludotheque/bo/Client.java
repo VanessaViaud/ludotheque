@@ -26,7 +26,8 @@ public class Client {
     @Column(nullable = false, length = 100, unique = true)
     @NonNull private String email;
 
-   // @NonNull private Address address;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @NonNull private Address address;
 
     @Column(length = 15)
     private String phoneNumber;

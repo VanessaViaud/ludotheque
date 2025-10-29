@@ -1,14 +1,23 @@
 package fr.eni.ludotheque.bo;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name="ADDRESS")
 public class Address {
 
-    @EqualsAndHashCode.Exclude private Integer addressNumber;
+    @EqualsAndHashCode.Exclude
+    @Id
+    @GeneratedValue
+    private Integer id;
+    @Column(nullable = false, length = 100)
     @NonNull private String city;
+    @Column(nullable = false, length = 100)
     @NonNull private String street;
+    @Column(nullable = false, length = 10)
     @NonNull private String postalCode;
 }
