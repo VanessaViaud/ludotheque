@@ -4,8 +4,10 @@ import fr.eni.ludotheque.bo.Address;
 import fr.eni.ludotheque.bo.Client;
 import fr.eni.ludotheque.dal.ClientRepository;
 import fr.eni.ludotheque.dto.ClientDto;
+import fr.eni.ludotheque.exceptions.EmailAlreadyExists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +44,14 @@ public class ClientsServiceImpl implements ClientsService {
         client.setAddress(address);
 
         //bien renvoyer un newClient après le save car il va comprendre l'id auto-généré
-        return clientRepository.save(client);
+        Client newClient = null;
+        try {
+            clientRepository.save(client);
+        }
+        catch(DataIntegrityViolationException e) {
+            throw new EmailAlreadyExists();
+        }
+        return newClient;
     }
 
     @Override
@@ -63,6 +72,26 @@ public class ClientsServiceImpl implements ClientsService {
             clientRepository.save(client);
         }
         else throw new RuntimeException("Client not found, impossible change");
-
     }
+
+    @Override
+    public void replaceAddressClientById(Integer id, Address address) {
+
+        Client client = clientRepository.findById(id).orElse(null);
+
+        if  (client != null) {
+            Address oldAddress = client.getAddress();
+            oldAddress.setCity(address.getCity());
+            oldAddress.setStreet(address.getStreet());
+            oldAddress.setPostalCode(address.getPostalCode());
+            clientRepository.save(client);
+        }
+        else throw new RuntimeException("Client not found, impossible change");
+    }
+
+    @Override
+    public void deleteClientById(Integer id) {
+        clientRepository.deleteById(id);
+    }
+
 }
