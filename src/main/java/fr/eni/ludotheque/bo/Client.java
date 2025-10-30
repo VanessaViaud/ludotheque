@@ -18,10 +18,10 @@ public class Client {
     private Integer clientNumber;
 
     @Column(nullable = false, length = 100)
-    @NonNull private String lastname;
+    @NonNull private String lastName;
 
     @Column(nullable = false, length = 100)
-    @NonNull private String firstname;
+    @NonNull private String firstName;
 
     @Column(nullable = false, length = 100, unique = true)
     @NonNull private String email;

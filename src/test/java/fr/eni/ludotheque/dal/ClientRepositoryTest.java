@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -30,16 +32,25 @@ public class ClientRepositoryTest {
 
         //Act = appel de la métthode à tester
         Client newClient = clientRepository.save(client);
+        List<Client> testResearch = clientRepository.findClientsByLastName("vi");
+        List<Client> testResearch2 = clientRepository.findClientsByLastName("kjj");
+
+        List<Client> testResearch3 = clientRepository.findByLastNameIsStartingWith("vi");
+        List<Client> testResearch4 = clientRepository.findByLastNameIsStartingWith("kjj");
 
         //Assert = vérifier le résultat fourni
         assertNotNull(newClient);
+        assertNotNull(testResearch);
+        assertTrue(testResearch2.isEmpty());
+        assertNotNull(testResearch3);
+        assertTrue(testResearch4.isEmpty());
         assertNotNull(newClient.getClientNumber());
-        assertEquals(client.getLastname(), newClient.getLastname());
+        assertEquals(client.getLastName(), newClient.getLastName());
 
         clientRepository.flush();
         Optional<Client> searchClient = clientRepository.findById(newClient.getClientNumber());
         assertTrue(searchClient.isPresent());
-        assertEquals(client,  searchClient.get());
+        assertEquals(client, searchClient.get());
 
     }
 }

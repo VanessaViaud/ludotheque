@@ -6,6 +6,6 @@ public record ClientDto(String lastName,
                         String phoneNumber,
                         String street,
                         String city,
-                        String state
+                        String postalCode
 ) {
 }

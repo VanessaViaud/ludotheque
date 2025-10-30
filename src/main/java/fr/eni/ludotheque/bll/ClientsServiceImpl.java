@@ -8,11 +8,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientsServiceImpl implements ClientsService {
 
     private ClientRepository clientRepository;
 
+    @Autowired
     public void setClientRepository(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
@@ -38,9 +41,28 @@ public class ClientsServiceImpl implements ClientsService {
         BeanUtils.copyProperties(clientDto, client);
         client.setAddress(address);
 
-        Client newClient = clientRepository.save(client);
-
         //bien renvoyer un newClient après le save car il va comprendre l'id auto-généré
-        return newClient;
+        return clientRepository.save(client);
+    }
+
+    @Override
+    public List<Client> findClientByLastNameFirstCharacters(String firstCharacters) {
+        return clientRepository.findByLastNameIsStartingWith(firstCharacters);
+    }
+
+    @Override
+    public void replaceClientById(Integer id, ClientDto clientDto) {
+        Address address = new Address();
+        BeanUtils.copyProperties(clientDto, address);
+
+        Client client = clientRepository.findById(id).orElse(null);
+
+        if  (client != null) {
+            BeanUtils.copyProperties(clientDto, client);
+            client.setAddress(address);
+            clientRepository.save(client);
+        }
+        else throw new RuntimeException("Client not found, impossible change");
+
     }
 }
