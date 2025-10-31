@@ -20,7 +20,7 @@ public class Copy {
     private String barcode;
 
     @Basic(optional = false)
-    private Boolean rentable = true;
+    private Boolean available = true;
 
     @NonNull
     @ManyToOne

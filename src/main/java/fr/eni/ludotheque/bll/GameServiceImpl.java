@@ -5,6 +5,8 @@ import fr.eni.ludotheque.dal.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GameServiceImpl implements GameService {
 
@@ -18,5 +20,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public Game addGame(Game game) {
         return gameRepository.save(game);
+    }
+
+    @Override
+    public List<Game> findAll() {
+        return gameRepository.findAll();
     }
 }
