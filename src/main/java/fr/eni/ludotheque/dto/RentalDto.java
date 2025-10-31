@@ -2,17 +2,15 @@ package fr.eni.ludotheque.dto;
 
 import lombok.NonNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record RentalDto(
         @NonNull
-    LocalDateTime startDate,
+    LocalDate startDate,
         @NonNull
     Double pricePerDay,
         @NonNull
     Integer copieId,
-        @NonNull
-    Boolean available,
         @NonNull
     Integer clientId
 ) {

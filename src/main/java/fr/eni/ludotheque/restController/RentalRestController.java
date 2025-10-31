@@ -8,9 +8,7 @@ import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RentalRestController {
@@ -22,9 +20,8 @@ public class RentalRestController {
         this.rentalService = rentalService;
     }
 
-
     @PostMapping("/rentals")
-    public ResponseEntity<?> rental(@Valid @RequestBody RentalDto rentalDto, BindingResult bindingResult) {
+    public ResponseEntity<?> createRental(@Valid @RequestBody RentalDto rentalDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
@@ -33,11 +30,24 @@ public class RentalRestController {
         Rental rental = null;
         try {
             rental = rentalService.addRental(rentalDto);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(rental);
     }
+
+    @PatchMapping("/rentals/{id}")
+    public ResponseEntity<?> finishRental(@PathVariable Integer id) {
+        Rental rental = null;
+        try {
+            rental = rentalService.endRental(id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(rental);
+    }
+
+
+
 
 }
