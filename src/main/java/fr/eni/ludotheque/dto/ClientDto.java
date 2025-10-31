@@ -1,11 +1,24 @@
 package fr.eni.ludotheque.dto;
 
-public record ClientDto(String lastName,
-                        String firstName,
-                        String email,
-                        String phoneNumber,
-                        String street,
-                        String city,
-                        String postalCode
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record ClientDto(
+        @NotBlank
+        @Size(min = 1, max = 50)
+        String lastName,
+        @NotBlank
+        @Size(min = 1, max = 50)
+        String firstName,
+        @Email
+        String email,
+        String phoneNumber,
+        @NotBlank
+        String street,
+        @NotBlank
+        String city,
+        @NotBlank
+        String postalCode
 ) {
 }
