@@ -9,4 +9,6 @@ public interface GameService {
     Game addGame(Game game);
 
     List<Game> findAll();
+
+    List<Object[]> findGamesWithCopiesCount();
 }

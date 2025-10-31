@@ -26,4 +26,9 @@ public class GameServiceImpl implements GameService {
     public List<Game> findAll() {
         return gameRepository.findAll();
     }
+
+    @Override
+    public List<Object[]> findGamesWithCopiesCount() {
+     return gameRepository.findAllByAvailableAndNumberOfCopies();
+    }
 }

@@ -9,6 +9,7 @@ import fr.eni.ludotheque.dal.CopyRepository;
 import fr.eni.ludotheque.dal.InvoiceRepository;
 import fr.eni.ludotheque.dal.RentalRepository;
 import fr.eni.ludotheque.dto.RentalDto;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,7 @@ public class RentalServiceImpl implements RentalService {
         this.clientRepository = clientRepository;
     }
 
+    @Transactional
     @Override
     public Rental addRental(RentalDto rentalDto) {
 

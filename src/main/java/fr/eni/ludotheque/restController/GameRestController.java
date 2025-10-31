@@ -23,7 +23,12 @@ public class GameRestController {
     @GetMapping("/games")
     public ResponseEntity<List<Game>> findAll() {
         List<Game> games = gameService.findAll();
-        return ResponseEntity.status(HttpStatus.CREATED).body(games);
+        return ResponseEntity.status(HttpStatus.OK).body(games);
+    }
 
+    @GetMapping("/games/available")
+    public ResponseEntity<List<Object[]>> findAllAvailable() {
+        List<Object[]> gamesAndAvailables = gameService.findGamesWithCopiesCount();
+        return ResponseEntity.status(HttpStatus.OK).body(gamesAndAvailables);
     }
 }
