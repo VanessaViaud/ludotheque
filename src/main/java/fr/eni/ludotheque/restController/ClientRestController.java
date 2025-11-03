@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 // un mix de @Controller et de @ResponseBody
 public class ClientRestController {
@@ -22,6 +24,12 @@ public class ClientRestController {
 
     public ClientRestController(ClientsService clientsService) {
         this.clientsService = clientsService;
+    }
+
+    @GetMapping("/clients")
+    public ResponseEntity<List<Client>> findAll() {
+        List<Client> clients = clientsService.findAllClients();
+        return ResponseEntity.status(HttpStatus.OK).body(clients);
     }
 
     //à modifier pour garder une ResponseEntity<Client> : il faudra créer une APiResponse comme en Kotlin avec un code, un message, et un typer générique qui pourra renvoyer un client ou autre.

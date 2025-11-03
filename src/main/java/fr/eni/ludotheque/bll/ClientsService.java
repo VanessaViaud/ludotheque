@@ -9,6 +9,9 @@ import java.util.List;
 public interface ClientsService {
 
     Client addClient(ClientDto clientDto);
+
+    List<Client> findAllClients();
+
     List<Client> findClientByLastNameFirstCharacters(String firstCharacters);
     void replaceClientById(Integer id, ClientDto clientDto);
 

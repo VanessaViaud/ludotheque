@@ -55,6 +55,10 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
+    public List<Client> findAllClients() {
+        return clientRepository.findAll();
+    }
+    @Override
     public List<Client> findClientByLastNameFirstCharacters(String firstCharacters) {
         return clientRepository.findByLastNameIsStartingWith(firstCharacters);
     }
