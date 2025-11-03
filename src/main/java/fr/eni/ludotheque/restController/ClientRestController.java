@@ -32,6 +32,12 @@ public class ClientRestController {
         return ResponseEntity.status(HttpStatus.OK).body(clients);
     }
 
+    @GetMapping("/clients/{id}")
+    public ResponseEntity<Client> findById(@PathVariable Integer id) {
+        Client client = clientsService.findClientById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(client);
+    }
+
     //à modifier pour garder une ResponseEntity<Client> : il faudra créer une APiResponse comme en Kotlin avec un code, un message, et un typer générique qui pourra renvoyer un client ou autre.
     //et là on pourra injecter notre erreur dans le message de l'apiResponse : ResponseEntity<ApiResponse<Client>>
     @PostMapping("/clients")

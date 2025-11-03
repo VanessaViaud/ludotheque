@@ -19,4 +19,5 @@ public interface ClientsService {
 
     void deleteClientById(Integer id);
 
+    Client findClientById(Integer id);
 }
