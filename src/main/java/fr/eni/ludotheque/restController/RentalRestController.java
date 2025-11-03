@@ -4,7 +4,6 @@ import fr.eni.ludotheque.bll.RentalService;
 import fr.eni.ludotheque.bo.Rental;
 import fr.eni.ludotheque.dto.RentalDto;
 import jakarta.validation.Valid;
-import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RentalRestController {
 
-    @NonNull
-    private RentalService rentalService;
+    private final RentalService rentalService;
 
     public RentalRestController(RentalService rentalService) {
         this.rentalService = rentalService;

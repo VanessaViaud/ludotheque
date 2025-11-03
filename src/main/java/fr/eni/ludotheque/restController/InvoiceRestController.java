@@ -2,7 +2,6 @@ package fr.eni.ludotheque.restController;
 
 import fr.eni.ludotheque.bll.RentalService;
 import fr.eni.ludotheque.bo.Invoice;
-import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,7 @@ import java.util.List;
 @RestController
 public class InvoiceRestController {
 
-    @NonNull
-    private RentalService rentalService;
+    private final RentalService rentalService;
 
     public InvoiceRestController(RentalService rentalService) {
         this.rentalService = rentalService;
@@ -25,14 +23,16 @@ public class InvoiceRestController {
     }
 
     @GetMapping("/invoices/{id}")
-    public ResponseEntity<?> getInvoice(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<Invoice>> getInvoice(@PathVariable Integer id) {
         Invoice invoice = null;
         try {
             invoice = rentalService.getInvoice(id);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            ApiResponse<Invoice> apiResponseBad = new ApiResponse<>(false, "This Invoice doesn't exists", invoice);
+            return ResponseEntity.badRequest().body(apiResponseBad);
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(invoice);
+
+        return ResponseEntity.ok(new ApiResponse<>(true, "ok", invoice));
     }
 
     @PostMapping("/invoices")
@@ -42,6 +42,7 @@ public class InvoiceRestController {
         try {
             invoiceRental = rentalService.createInvoice(rentalsIds);
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(invoiceRental);

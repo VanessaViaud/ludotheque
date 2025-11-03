@@ -7,54 +7,57 @@ import fr.eni.ludotheque.dto.ClientDto;
 import fr.eni.ludotheque.exceptions.ClientNotFound;
 import fr.eni.ludotheque.exceptions.EmailAlreadyExists;
 import jakarta.validation.Valid;
-import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 // un mix de @Controller et de @ResponseBody
 public class ClientRestController {
 
-    @NonNull
-    private ClientsService clientsService;
+    private final ClientsService clientsService;
 
     public ClientRestController(ClientsService clientsService) {
         this.clientsService = clientsService;
     }
 
     @GetMapping("/clients")
-    public ResponseEntity<List<Client>> findAll() {
+    public ResponseEntity<ApiResponse<List<Client>>> findAll() {
         List<Client> clients = clientsService.findAllClients();
-        return ResponseEntity.status(HttpStatus.OK).body(clients);
+        return ResponseEntity.ok(new ApiResponse<>(true, "ok", clients));
     }
 
     @GetMapping("/clients/{id}")
-    public ResponseEntity<Client> findById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<Client>> findById(@PathVariable Integer id) {
         Client client = clientsService.findClientById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(client);
+        return ResponseEntity.ok(new ApiResponse<>(true, "ok", client));
     }
 
     //à modifier pour garder une ResponseEntity<Client> : il faudra créer une APiResponse comme en Kotlin avec un code, un message, et un typer générique qui pourra renvoyer un client ou autre.
     //et là on pourra injecter notre erreur dans le message de l'apiResponse : ResponseEntity<ApiResponse<Client>>
     @PostMapping("/clients")
-    public ResponseEntity<?> addClient(@Valid @RequestBody ClientDto clientDto, BindingResult bindingResult) throws ClientNotFound {
+    public ResponseEntity<ApiResponse<Client>> addClient(@Valid @RequestBody ClientDto clientDto, BindingResult bindingResult) throws ClientNotFound {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+            String errors = bindingResult.getFieldErrors().stream()
+                    .map(f -> f.getField() + " : " +
+                            f.getDefaultMessage()).collect(Collectors.joining(", "));
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, errors, null));
         }
 
         Client client = null;
         try {
             client = clientsService.addClient(clientDto);
         } catch (EmailAlreadyExists e) {
+            ApiResponse<Client> apiResponseBad = new ApiResponse<>(false, "Email already exists", client);
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("L'email existe déjà");
+                    .body(apiResponseBad);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(client);
+        ApiResponse<Client> apiResponse = new ApiResponse<>(true, "ok", client);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @DeleteMapping("/clients/{id}")
@@ -65,24 +68,29 @@ public class ClientRestController {
     }
 
     @PutMapping("/clients/{id}")
-    public ResponseEntity<?> updateClient(@PathVariable Integer id, @RequestBody ClientDto clientDto) {
+    public ResponseEntity<ApiResponse<Client>> updateClient(@PathVariable Integer id, @RequestBody ClientDto clientDto) {
+        Client client = null;
         try {
-            clientsService.replaceClientById(id, clientDto);
+            client = clientsService.replaceClientById(id, clientDto);
         } catch (ClientNotFound e) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Client not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Client : " + id + " not found", null));
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        ApiResponse<Client> apiResponse = new ApiResponse<>(true, "ok", client);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PatchMapping("/clients/{id}")
-    public ResponseEntity<?> updateClientAddress(@PathVariable Integer id, @RequestBody Address address) {
+    public ResponseEntity<ApiResponse<Client>> updateClientAddress(@PathVariable Integer id, @RequestBody Address address) {
+        Client client = null;
         try {
-            clientsService.replaceAddressClientById(id, address);
+           client = clientsService.replaceAddressClientById(id, address);
             ;
         } catch (ClientNotFound e) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Client not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Client : " + id + " not found", null));
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+        ApiResponse<Client> apiResponse = new ApiResponse<>(true, "ok", client);
+        return ResponseEntity.ok(apiResponse);
     }
 
 }

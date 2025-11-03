@@ -13,9 +13,9 @@ public interface ClientsService {
     List<Client> findAllClients();
 
     List<Client> findClientByLastNameFirstCharacters(String firstCharacters);
-    void replaceClientById(Integer id, ClientDto clientDto);
+    Client replaceClientById(Integer id, ClientDto clientDto);
 
-    void replaceAddressClientById(Integer id, Address address);
+    Client replaceAddressClientById(Integer id, Address address);
 
     void deleteClientById(Integer id);
 
