@@ -16,7 +16,7 @@ public class UserInfo {
 
     @NonNull
     @Column(unique = true, length = 70)
-    private String email;
+    private String username;
 
     @NonNull
     @Column(length = 70)
