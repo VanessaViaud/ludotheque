@@ -64,7 +64,7 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
-    public void replaceClientById(Integer id, ClientDto clientDto) {
+    public Client replaceClientById(Integer id, ClientDto clientDto) {
         Address address = new Address();
         BeanUtils.copyProperties(clientDto, address);
 
@@ -74,12 +74,13 @@ public class ClientsServiceImpl implements ClientsService {
             BeanUtils.copyProperties(clientDto, client);
             client.setAddress(address);
             clientRepository.save(client);
+            return client;
         }
         else throw new RuntimeException("Client not found, impossible change");
     }
 
     @Override
-    public void replaceAddressClientById(Integer id, Address address) {
+    public Client replaceAddressClientById(Integer id, Address address) {
 
         Client client = clientRepository.findById(id).orElse(null);
 
@@ -89,6 +90,7 @@ public class ClientsServiceImpl implements ClientsService {
             oldAddress.setStreet(address.getStreet());
             oldAddress.setPostalCode(address.getPostalCode());
             clientRepository.save(client);
+            return client;
         }
         else throw new RuntimeException("Client not found, impossible change");
     }
