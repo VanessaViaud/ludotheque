@@ -23,7 +23,7 @@ public class InvoiceRestController {
     }
 
     @GetMapping("/invoices/{id}")
-    public ResponseEntity<ApiResponse<Invoice>> getInvoice(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<Invoice>> getInvoice(@PathVariable String id) {
         Invoice invoice = null;
         try {
             invoice = rentalService.getInvoice(id);
@@ -36,7 +36,7 @@ public class InvoiceRestController {
     }
 
     @PostMapping("/invoices")
-    public ResponseEntity<?> createInvoice(@RequestParam List<Integer> rentalsIds) {
+    public ResponseEntity<?> createInvoice(@RequestParam List<String> rentalsIds) {
 
         Invoice invoiceRental = null;
         try {

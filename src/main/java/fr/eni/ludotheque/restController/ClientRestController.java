@@ -31,7 +31,7 @@ public class ClientRestController {
     }
 
     @GetMapping("/clients/{id}")
-    public ResponseEntity<ApiResponse<Client>> findById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<Client>> findById(@PathVariable String id) {
         Client client = clientsService.findClientById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "ok", client));
     }
@@ -62,13 +62,13 @@ public class ClientRestController {
 
     @DeleteMapping("/clients/{id}")
     //NB : ici on devrait laisser id en String et convertir après car en http on a que du Strng
-    public ResponseEntity<Void> deleteClient(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteClient(@PathVariable String id) {
         clientsService.deleteClientById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/clients/{id}")
-    public ResponseEntity<ApiResponse<Client>> updateClient(@PathVariable Integer id, @RequestBody ClientDto clientDto) {
+    public ResponseEntity<ApiResponse<Client>> updateClient(@PathVariable String id, @RequestBody ClientDto clientDto) {
         Client client = null;
         try {
             client = clientsService.replaceClientById(id, clientDto);
@@ -81,7 +81,7 @@ public class ClientRestController {
     }
 
     @PatchMapping("/clients/{id}")
-    public ResponseEntity<ApiResponse<Client>> updateClientAddress(@PathVariable Integer id, @RequestBody Address address) {
+    public ResponseEntity<ApiResponse<Client>> updateClientAddress(@PathVariable String id, @RequestBody Address address) {
         Client client = null;
         try {
            client = clientsService.replaceAddressClientById(id, address);

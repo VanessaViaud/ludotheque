@@ -10,5 +10,5 @@ public interface GameService {
 
     List<Game> findAll();
 
-    List<Object[]> findGamesWithCopiesCount();
+   // List<Object[]> findGamesWithCopiesCount();
 }

@@ -35,7 +35,7 @@ public class RentalRestController {
     }
 
     @PatchMapping("/rentals/{id}")
-    public ResponseEntity<?> finishRental(@PathVariable Integer id) {
+    public ResponseEntity<?> finishRental(@PathVariable String id) {
         Rental rental = null;
         try {
             rental = rentalService.endRental(id);

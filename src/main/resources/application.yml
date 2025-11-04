@@ -1,11 +1,12 @@
 spring:
   application:
     name: ludotheque
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-  datasource:
-    url: jdbc:postgresql://localhost/LUDO_DB
-    username: ludo_user
-    password: ludo_pwd
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: LUDOTHEQUE
+      auto-index-creation: true
+      uri: mongodb://localhost:27017/LODUTHEQUE
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration

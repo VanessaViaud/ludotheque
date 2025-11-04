@@ -13,11 +13,11 @@ public interface ClientsService {
     List<Client> findAllClients();
 
     List<Client> findClientByLastNameFirstCharacters(String firstCharacters);
-    Client replaceClientById(Integer id, ClientDto clientDto);
+    Client replaceClientById(String id, ClientDto clientDto);
 
-    Client replaceAddressClientById(Integer id, Address address);
+    Client replaceAddressClientById(String id, Address address);
 
-    void deleteClientById(Integer id);
+    void deleteClientById(String id);
 
-    Client findClientById(Integer id);
+    Client findClientById(String id);
 }

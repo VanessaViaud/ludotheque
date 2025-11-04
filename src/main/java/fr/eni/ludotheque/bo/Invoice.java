@@ -1,30 +1,27 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "INVOICES")
 
 public class Invoice {
 
-    @EqualsAndHashCode.Exclude
     @Id
-    @GeneratedValue
-    private Integer id;
-
+    private String invoiceNumber;
     private LocalDate paymentDate;
 
     @NonNull
     private Double amount;
-
-    @OneToMany
-    @JoinColumn(name = "invoice_id")
-    private List<Rental> rentals;
+    @NonNull
+    private List<Rental> rentals =  new ArrayList<>();
 }

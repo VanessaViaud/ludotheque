@@ -15,7 +15,7 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
-    public void returnCopy(Integer Id) {
+    public void returnCopy(String Id) {
         copyRepository.findById(Id).ifPresent(copy -> {
             copy.setAvailable(true);
             copyRepository.save(copy);

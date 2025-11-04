@@ -1,35 +1,28 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "RENTALS")
+@Document("RENTALS")
 public class Rental {
 
-    @EqualsAndHashCode.Exclude
     @Id
-    @GeneratedValue
-    private Integer rentalNumber;
+    private String rentalNumber;
 
     @NonNull
     private LocalDate startDate;
     private LocalDate endDate;
     private Double pricePerDay;
-
-    @ManyToOne
-    @NonNull
-    @JoinColumn(name = "copy_id")
     private Copy copy;
-
-    @ManyToOne
-    @NonNull
-    @JoinColumn(name = "client_id")
     private Client client;
 
 }

@@ -1,7 +1,7 @@
 package fr.eni.ludotheque.dal;
 
 import fr.eni.ludotheque.bo.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface CategoryRepository extends MongoRepository<Category, String> {
 }

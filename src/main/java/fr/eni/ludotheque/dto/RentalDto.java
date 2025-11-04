@@ -10,9 +10,9 @@ public record RentalDto(
         @NonNull
     Double pricePerDay,
         @NonNull
-    Integer copieId,
+    String copieId,
         @NonNull
-    Integer clientId
+    String clientId
 ) {
 
 }

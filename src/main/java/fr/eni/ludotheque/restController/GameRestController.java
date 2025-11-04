@@ -23,9 +23,9 @@ public class GameRestController {
         return ResponseEntity.ok(new ApiResponse<>(true, "ok", games));
     }
 
-    @GetMapping("/games/available")
-    public ResponseEntity<ApiResponse<List<Object[]>>> findAllAvailable() {
-        List<Object[]> gamesAndAvailable = gameService.findGamesWithCopiesCount();
-        return ResponseEntity.ok(new ApiResponse<>(true, "ok", gamesAndAvailable));
-    }
+//    @GetMapping("/games/available")
+//    public ResponseEntity<ApiResponse<List<Object[]>>> findAllAvailable() {
+//        List<Object[]> gamesAndAvailable = gameService.findGamesWithCopiesCount();
+//        return ResponseEntity.ok(new ApiResponse<>(true, "ok", gamesAndAvailable));
+//    }
 }

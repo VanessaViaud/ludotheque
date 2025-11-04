@@ -9,7 +9,6 @@ import fr.eni.ludotheque.dal.CopyRepository;
 import fr.eni.ludotheque.dal.InvoiceRepository;
 import fr.eni.ludotheque.dal.RentalRepository;
 import fr.eni.ludotheque.dto.RentalDto;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +54,6 @@ public class RentalServiceImpl implements RentalService {
         this.clientRepository = clientRepository;
     }
 
-    @Transactional
     @Override
     public Rental addRental(RentalDto rentalDto) {
 
@@ -76,7 +74,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Rental endRental(Integer RentalId) {
+    public Rental endRental(String RentalId) {
         Rental rental = rentalRepository.findById(RentalId).orElse(null);
         assert rental != null;
         rental.setEndDate(LocalDate.now());
@@ -86,10 +84,10 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Invoice createInvoice(List<Integer> rentalsIds) {
+    public Invoice createInvoice(List<String> rentalsIds) {
         double totalAmount = 0.0;
 
-        for (Integer rentalId : rentalsIds) {
+        for (String rentalId : rentalsIds) {
             Rental rental = rentalRepository.findById(rentalId).orElse(null);
             if (rental != null) {
                 long duration = ChronoUnit.DAYS.between(rental.getStartDate(), rental.getEndDate());
@@ -102,14 +100,14 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void payRental(Integer InvoiceId) {
+    public void payRental(String InvoiceId) {
         Invoice invoice = invoiceRepository.findById(InvoiceId).orElse(null);
         assert invoice != null;
         invoice.setPaymentDate(LocalDate.now());
     }
 
     @Override
-    public Invoice getInvoice(Integer id) {
+    public Invoice getInvoice(String id) {
         return invoiceRepository.findById(id).orElse(null);
     }
 

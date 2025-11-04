@@ -10,13 +10,13 @@ public interface RentalService {
 
     Rental addRental(RentalDto rentalDto);
 
-    Rental endRental(Integer RentalId);
+    Rental endRental(String RentalId);
 
-    Invoice createInvoice(List<Integer> rentalsIds);
+    Invoice createInvoice(List<String> rentalsIds);
 
-    void payRental(Integer RentalId);
+    void payRental(String RentalId);
 
-    Invoice getInvoice(Integer id);
+    Invoice getInvoice(String id);
 
     List<Invoice> getInvoices();
 }

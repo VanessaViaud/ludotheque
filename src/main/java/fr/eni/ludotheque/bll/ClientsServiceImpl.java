@@ -64,7 +64,7 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
-    public Client replaceClientById(Integer id, ClientDto clientDto) {
+    public Client replaceClientById(String id, ClientDto clientDto) {
         Address address = new Address();
         BeanUtils.copyProperties(clientDto, address);
 
@@ -80,7 +80,7 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
-    public Client replaceAddressClientById(Integer id, Address address) {
+    public Client replaceAddressClientById(String id, Address address) {
 
         Client client = clientRepository.findById(id).orElse(null);
 
@@ -96,12 +96,12 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
-    public void deleteClientById(Integer id) {
+    public void deleteClientById(String id) {
         clientRepository.deleteById(id);
     }
 
     @Override
-    public Client findClientById(Integer id) {
+    public Client findClientById(String id) {
         return clientRepository.findById(id).orElse(null);
     }
 

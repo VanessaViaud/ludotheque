@@ -1,7 +1,7 @@
 package fr.eni.ludotheque.dal;
 
 import fr.eni.ludotheque.bo.Address;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AddressRepository extends JpaRepository<Address, Integer> {
+public interface AddressRepository extends MongoRepository<Address, String> {
 }

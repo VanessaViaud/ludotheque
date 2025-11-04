@@ -1,34 +1,29 @@
 package fr.eni.ludotheque.bo;
-
-import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.UUID;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "CLIENTS")
+
+@Document("CLIENTS")
 public class Client {
 
-    @EqualsAndHashCode.Exclude
     @Id
-    @GeneratedValue
-    private Integer clientNumber;
+    private String clientNumber;
 
-    @Column(nullable = false, length = 100)
-    @NonNull private String lastName;
+    @NonNull
+    private String lastName;
 
-    @Column(nullable = false, length = 100)
-    @NonNull private String firstName;
+    @NonNull
+    private String firstName;
 
-    @Column(nullable = false, length = 100, unique = true)
-    @NonNull private String email;
+    @NonNull
+    private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false, fetch = FetchType.EAGER)
-    @NonNull private Address address;
+    @NonNull
+    private Address address;
 
-    @Column(length = 15)
     private String phoneNumber;
 }
