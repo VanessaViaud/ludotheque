@@ -17,7 +17,7 @@ import java.util.List;
 public class Invoice {
 
     @Id
-    private String invoiceNumber;
+    private String _id;
     private LocalDate paymentDate;
 
     @NonNull

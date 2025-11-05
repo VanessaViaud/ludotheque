@@ -2,7 +2,6 @@ package fr.eni.ludotheque.dal;
 
 import fr.eni.ludotheque.bo.Category;
 import fr.eni.ludotheque.bo.Game;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ public class GameRepositoryTest {
 
     @Test
     @DisplayName("Test findAll")
-    @Transactional
     public void addGame() {
 
         Category category = new Category("cards");
@@ -34,18 +32,16 @@ public class GameRepositoryTest {
 
         assertNotNull(categories);
 
-        categoryRepository.flush();
         Game game = new Game("Uno", "gf1h2sb", 5.5);
         game.setDescription("jeu de carte dans lequel le vainqueur est le premier joueur à se défausser de la dernière carte de sa main");
         game.setCategories(categories);
         Game newGame = gameRepository.save(game);
 
         assertNotNull(newGame);
-        assertNotNull(newGame.getGameNumber());
+        assertNotNull(newGame.get_id());
         assertEquals(categories, newGame.getCategories());
 
-        gameRepository.flush();
-        Optional<Game> gameOptional = gameRepository.findById(game.getGameNumber());
+        Optional<Game> gameOptional = gameRepository.findById(game.get_id());
         assertTrue(gameOptional.isPresent());
     }
 }

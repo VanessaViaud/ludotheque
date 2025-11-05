@@ -79,7 +79,7 @@ public class RentalServiceImpl implements RentalService {
         assert rental != null;
         rental.setEndDate(LocalDate.now());
         Copy copy = rental.getCopy();
-        copyService.returnCopy(copy.getId());
+        copyService.returnCopy(copy.get_id());
         return rental;
     }
 

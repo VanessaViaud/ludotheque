@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 public class Address {
 
+    //private String id;
     @NonNull private String city;
     @NonNull private String street;
     @NonNull private String postalCode;

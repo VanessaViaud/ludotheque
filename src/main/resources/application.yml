@@ -7,6 +7,6 @@ spring:
       port: 27017
       database: LUDOTHEQUE
       auto-index-creation: true
-      uri: mongodb://localhost:27017/LODUTHEQUE
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      uri: mongodb+srv://vanessa:mdpplsMA@44@cluster0.bmhoh7m.mongodb.net/?appName=Cluster0
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration

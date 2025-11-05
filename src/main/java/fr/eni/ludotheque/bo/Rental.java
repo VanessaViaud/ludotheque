@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class Rental {
 
     @Id
-    private String rentalNumber;
+    private String _id;
 
     @NonNull
     private LocalDate startDate;

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -32,8 +31,8 @@ public class ClientRepositoryTest {
 
         //Act = appel de la métthode à tester
         Client newClient = clientRepository.save(client);
-        List<Client> testResearch = clientRepository.findClientsByLastName("vi");
-        List<Client> testResearch2 = clientRepository.findClientsByLastName("kjj");
+        List<Client> testResearch = clientRepository.findByLastNameIsStartingWith("vi");
+        List<Client> testResearch2 = clientRepository.findByLastNameIsStartingWith("kjj");
 
         List<Client> testResearch3 = clientRepository.findByLastNameIsStartingWith("vi");
         List<Client> testResearch4 = clientRepository.findByLastNameIsStartingWith("kjj");
@@ -44,11 +43,10 @@ public class ClientRepositoryTest {
         assertTrue(testResearch2.isEmpty());
         assertNotNull(testResearch3);
         assertTrue(testResearch4.isEmpty());
-        assertNotNull(newClient.getClientNumber());
+        assertNotNull(newClient.get_id());
         assertEquals(client.getLastName(), newClient.getLastName());
 
-        clientRepository.flush();
-        Optional<Client> searchClient = clientRepository.findById(newClient.getClientNumber());
+        Optional<Client> searchClient = clientRepository.findById(newClient.get_id());
         assertTrue(searchClient.isPresent());
         assertEquals(client, searchClient.get());
 

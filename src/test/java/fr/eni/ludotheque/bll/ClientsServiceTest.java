@@ -1,22 +1,16 @@
 package fr.eni.ludotheque.bll;
 
-import fr.eni.ludotheque.bo.Address;
 import fr.eni.ludotheque.bo.Client;
 import fr.eni.ludotheque.dal.ClientRepository;
 import fr.eni.ludotheque.dto.ClientDto;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ClientsServiceTest {
@@ -29,7 +23,6 @@ public class ClientsServiceTest {
 
     @Test
     @DisplayName("Test de recherche de client en db")
-    @Transactional
     public void searchClients() {
 
         ClientDto clientDto = new ClientDto(
@@ -55,9 +48,9 @@ public class ClientsServiceTest {
 
     @Test
     @DisplayName("Test d’ajout de client en DB")
-    @Transactional
     public void testAddClientAndAddresse() {
         // Arrange
+        clientRepository.deleteAll();
         ClientDto clientDto = new ClientDto(
                 "nom1",
                 "p1",
@@ -70,26 +63,27 @@ public class ClientsServiceTest {
 
         // Act
         Client newClient = clientsService.addClient(clientDto);
+        System.out.println(newClient);
         ClientDto clientDtoForReplacement = new ClientDto("bobo", "bibi", "bub@eni.fr", "2222222", "boubouStreet", "babaCity", "4523");
-        clientsService.replaceClientById(1, clientDtoForReplacement);
+        //clientsService.replaceClientById("1", clientDtoForReplacement);
 
         // Assert
 
         //vérifications sur la création de clients
         assertNotNull(newClient, "Le client retourné ne doit pas être nul");
-        assertNotNull(newClient.getClientNumber(), "Le numéro client doit être généré");
+        assertNotNull(newClient.get_id(), "Le numéro client doit être généré");
         assertNotNull(newClient.getAddress(), "L’adresse doit être créée");
-        assertNotNull(newClient.getAddress().getId(), "L’adresse doit avoir un id généré");
+        //assertNotNull(newClient.getAddress().getId(), "L’adresse doit avoir un id généré");
 
         // vérification que le client a bien été enregistré en base
-        Client clientInDb = clientRepository.findById(newClient.getClientNumber()).orElse(null);
+        Client clientInDb = clientRepository.findById(newClient.get_id()).orElse(null);
         assertNotNull(clientInDb, "Le client doit être présent en base");
         assertEquals("nom1", clientInDb.getLastName());
         assertEquals("REZE", clientInDb.getAddress().getCity());
 
         //vérifications sur la modification complète d'un client
-        assertNotNull(clientDtoForReplacement);
-        assertEquals("bibi", clientDtoForReplacement.firstName());
+        //assertNotNull(clientDtoForReplacement);
+        //assertEquals("bibi", clientDtoForReplacement.firstName());
 
 
     //EXEMPLE TEST MOCKE

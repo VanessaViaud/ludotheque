@@ -14,7 +14,7 @@ import java.util.List;
 public class Game {
 
     @Id
-    private String gameNumber;
+    private String _id;
 
     @NonNull private String title;
 

@@ -2,6 +2,7 @@ package fr.eni.ludotheque.bll;
 
 import fr.eni.ludotheque.bo.Address;
 import fr.eni.ludotheque.bo.Client;
+import fr.eni.ludotheque.dal.AddressRepository;
 import fr.eni.ludotheque.dal.ClientRepository;
 import fr.eni.ludotheque.dto.ClientDto;
 import fr.eni.ludotheque.exceptions.EmailAlreadyExists;
@@ -17,17 +18,24 @@ public class ClientsServiceImpl implements ClientsService {
 
     private ClientRepository clientRepository;
 
+    private AddressRepository addressRepository;
+
     @Autowired
     public void setClientRepository(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
+    @Autowired
+    public void setAddressRepository(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
     @Override
     public Client addClient(ClientDto clientDto) {
-//        Version classique sans beanutils :
+       // Version classique sans beanutils :
 //        Client client = new Client();
-//        client.setLastname(clientDto.lastName());
-//        client.setFirstname(clientDto.firstName());
+//        client.setLastName(clientDto.lastName());
+//        client.setFirstName(clientDto.firstName());
 //        client.setEmail(clientDto.email());
 //        Address address = new Address();
 //        address.setStreet(clientDto.street());
@@ -45,8 +53,11 @@ public class ClientsServiceImpl implements ClientsService {
 
         //bien renvoyer un newClient après le save car il va comprendre l'id auto-généré
         Client newClient = null;
+       // Address newAddress = null;
         try {
-            clientRepository.save(client);
+           // newAddress = addressRepository.save(address);
+            newClient = clientRepository.save(client);
+           // newClient.setAddress(newAddress);
         }
         catch(DataIntegrityViolationException e) {
             throw new EmailAlreadyExists();

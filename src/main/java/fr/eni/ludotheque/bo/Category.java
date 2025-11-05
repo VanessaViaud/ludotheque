@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 public class Category {
 
+
+    private String id;
     @NonNull
     private String label;
 

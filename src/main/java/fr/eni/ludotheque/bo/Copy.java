@@ -12,7 +12,7 @@ import org.springframework.data.annotation.Id;
 public class Copy {
 
     @Id
-    private String Id;
+    private String _id;
     @NonNull
     private String barcode;
     private Boolean available = true;
