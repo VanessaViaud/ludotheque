@@ -1,12 +1,13 @@
-spring:
-  application:
-    name: ludotheque
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: LUDOTHEQUE
-      auto-index-creation: true
-      uri: mongodb://localhost:27017/LUDOTHEQUE
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+spring: { application: { name: ludotheque }, data: { mongodb: { database: LUDOTHEQUE, auto-index-creation: true, uri: mongodb://user:pass@192.168.50.128:27017/ } } }
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG,
+    fr:
+      eni:
+        ludotheque: INFO
+

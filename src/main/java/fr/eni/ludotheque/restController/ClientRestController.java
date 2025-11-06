@@ -7,16 +7,22 @@ import fr.eni.ludotheque.dto.ClientDto;
 import fr.eni.ludotheque.exceptions.ClientNotFound;
 import fr.eni.ludotheque.exceptions.EmailAlreadyExists;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+//@slf4j (génère tous les logs de cette classe sans avoir besoin de préciser le logger. cf ci-dessous)
 // un mix de @Controller et de @ResponseBody
 public class ClientRestController {
+    //attention à bien importer "org.slf4j.Logger" et "org.slf4j.LoggerFactory"
+    public Logger logger = LoggerFactory.getLogger("fr.eni.ludotheque.restController.ClientRestController");
 
     private final ClientsService clientsService;
 
@@ -26,6 +32,15 @@ public class ClientRestController {
 
     @GetMapping("/clients")
     public ResponseEntity<ApiResponse<List<Client>>> findAll() {
+
+        //et ici les messages que l'on peut vouloir : bien les mettre là où il faut. ex/ les logger.error sont plutôt
+        // dans les try/catch
+        logger.info("trouver les clients");
+        logger.debug("niveau debug");
+        logger.warn("niveau warn");
+        logger.error("niveau error");
+        logger.trace("niveau trace");
+
         List<Client> clients = clientsService.findAllClients();
         return ResponseEntity.ok(new ApiResponse<>(true, "ok", clients));
     }
